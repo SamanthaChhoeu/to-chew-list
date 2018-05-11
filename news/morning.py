@@ -17,7 +17,6 @@ def shorten_url(longUrl):
     postdata = {'longUrl':longUrl}
     headers = {'content-type': 'application/json'}
     r = requests.post(url, data=json.dumps(postdata), headers=headers)
-    #print(r.text)
     return r.json()["id"]
 
 if __name__ == "__main__":
