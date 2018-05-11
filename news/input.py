@@ -1,10 +1,7 @@
-from morning import request_news, filter_news
-from news_req import news_req
-import requests
-from spell import translate
-import sys, json
+from morning import morning_news
+import sys
 
-categories = {"top": "h", "world": "w", "business": "b", "nation": "n", "science": "t", "technology": "tc", "election": "el", "politics": "p", "entertainment": "e", "sport": "s", "health": "m"}
+categories = {"top": "h", "world": "w", "business": "b", "nation": "n", "science": "t", "tech": "tc", "election": "el", "politics": "p", "entertainment": "e", "sport": "s", "health": "m"}
 
 def parse_input(query=None, region='au'):
     global categories
@@ -29,10 +26,11 @@ def parse_input(query=None, region='au'):
 
     if query.lower() in categories:
         query = categories[query]
-        request_news(category=query, region=region)
+        result = morning_news(category=query, region=region)
     else:
-        request_news(query=query, region=region)
+        result = morning_news(query=query, region=region)
 
+    return result
 
     #articles = news_req(region, query)
 

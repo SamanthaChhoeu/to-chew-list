@@ -1,9 +1,9 @@
-from .news_req import news_req
-from .spell import translate
+from news_req import news_req
+from spell import translate
 import argparse
 
-def morning_news(query=None, region='au'):
-    articles = news_req(region, query)
+def morning_news(category=None, query=None, region='au'):
+    articles = news_req(category, region, query)
     return articles[:3]
 
 if __name__ == "__main__":
