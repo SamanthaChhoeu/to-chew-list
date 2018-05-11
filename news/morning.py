@@ -1,10 +1,24 @@
-from .news_req import news_req
-from .spell import translate
+from news_req import news_req
+from spell import translate
 import argparse
+import requests
+import json
 
 def morning_news(category=None, query=None, region='au'):
-    articles = news_req(category, region, query)
-    return articles[:3]
+    articles = news_req(category, region, query)[:3]
+
+    for article in articles:
+        article["link"] = shorten_url(article["link"])
+
+    return articles
+
+def shorten_url(longUrl):
+    url = "https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyDRc9XUsoGqcVrPKNOCeTsRW_1CEv2Vw8I"
+    postdata = {'longUrl':longUrl}
+    headers = {'content-type': 'application/json'}
+    r = requests.post(url, data=json.dumps(postdata), headers=headers)
+    #print(r.text)
+    return r.json()["id"]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
