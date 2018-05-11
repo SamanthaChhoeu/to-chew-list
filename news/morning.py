@@ -1,5 +1,5 @@
-from news_req import news_req
-from spell import translate
+from .news_req import news_req
+from .spell import translate
 import argparse
 
 def morning_news(category=None, query=None, region='au'):

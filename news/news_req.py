@@ -23,7 +23,7 @@ def news_req(category=None, region='au', query=None):
     elif query:
         url = build_query(region, query)
     else:
-        url = "https://news.google.com/news?output=rss&ned=" + region
+        url = "https://news.google.com/news?output=rss&topic=h&ned=" + region
 
     text = requests.get(url).content.decode()
     articles = []

@@ -1,10 +1,15 @@
 import json
 import news.morning as morning
+import news.input as query_handler
 
 def get_news(event, context):
-    news = morning.morning_news()
+    if event['body']:
+        query = json.loads(event['body']).get('query')
+        news = query_handler.parse_input(query)
+    else:
+        news = morning.morning_news()
     body = {
-        "articles": json.dumps(news),
+        "articles": json.dumps(news)
     }
 
     response = {
