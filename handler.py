@@ -1,10 +1,10 @@
 import json
+import news.morning as morning
 
-
-def hello(event, context):
+def get_news(event, context):
+    news = morning.morning_news()
     body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
+        "articles": json.dumps(news),
     }
 
     response = {

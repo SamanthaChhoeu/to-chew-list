@@ -1,33 +1,22 @@
-from newsapi import NewsApiClient
-from spell import translate
+import re
+import requests
+import html
 
-KEY = "5c382368f74c48b18bf495cd990e1bd3"
-categories = ['business', 'entertainment', 'general', 'health', 
-              'science', 'sports', 'technology']
+def findall(tag, text):
+    return re.findall("<{tag}>(.*?)</{tag}>".format(tag=tag), text)
+
+def build_url(region, query=None):
+    url = "https://news.google.com/news?output=rss&ned=" + region
+    if query:
+        url += "&q=" + query
+    return url
 
 def news_req(region='au', query=None): 
-    # Initiate client 
-    client = NewsApiClient(api_key=KEY)
-
-    # Get headlines
-    if not query:
-        headlines = client.get_top_headlines(country=region, sources='google-news')
-    else:
-        corrected = translate(query)
-        final_category = None
-        for category in categories:
-            if category.startswith(query) or category.startswith(corrected):
-                final_category = category
-                break
-        if not final_category:
-            headlines = client.get_everything(
-                q=query, 
-                sort_by='relevancy',
-                sources='google-news'
-            )
-        else:
-            headlines = client.get_top_headlines(
-                category=final_category, 
-                country=region, 
-            )
-    return headlines.get('articles')
+    url = build_url(region, query)
+    text = requests.get(url).content.decode()
+    articles = []
+    for title, link in zip(findall('title', text), findall('link', text)):
+        link = re.sub(r".*url=(.*)$", r"\1", link)
+        if not(link.startswith('https://news.google.com/news')):
+            articles.append({'title': html.unescape(title), 'link': link})
+    return articles
