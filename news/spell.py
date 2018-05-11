@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import http.client, urllib.parse, json
 
 def translate(news_type):
