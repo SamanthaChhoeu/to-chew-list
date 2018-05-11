@@ -1,27 +1,17 @@
-import sys,re,json,pprint
-import requests
+from newsapi import NewsApiClient
 
-def news_req():
+KEY = "5c382368f74c48b18bf495cd990e1bd3"
 
-    KEY = "5c382368f74c48b18bf495cd990e1bd3"
-    SITE = "https://newsapi.org/"
+def news_req(region, query=None): 
+    # Initiate client 
+    client = NewsApiClient(api_key=KEY)
 
-    REGION = "us"
-
-    headline_req = SITE + "v2/top-headlines" + "?country=" + REGION + "&apiKey=" + KEY
-    headline_data = requests.get(headline_req)
-
-    if (headline_data.status_code == 200):
-        headline = headline_data.content.decode("utf-8")
-        headline = json.loads(headline)
+    # Get headlines
+    if not query:
+        headlines = client.get_top_headlines(country=region)
     else:
-        if (headline_data.status_code == 404):
-            sys.exit("DOES_NOT_EXIST: " + str(headline_data.status_code))
-        else:
-            sys.exit("BAD_REQUEST: " + str(headline_data.status_code))
+        headlines = client.get_everything(q=query, country=region)
+    return headlines.get('articles')
 
-    dump = json.dumps(headline)
-    print(dump)
-    return headline.get("articles")
-
-news_req()
+if __name__ == '__main__':
+    print(news_req('au'))
