@@ -25,7 +25,7 @@ def translate(news_type):
         suggestions = output[0]['suggestions']
         return sorted(suggestions, key=lambda x: x['score'])[0]['suggestion']
     else:
-        return ""
+        return news_type
 
 if __name__ == '__main__':
     word = input("Select type of news: ")
