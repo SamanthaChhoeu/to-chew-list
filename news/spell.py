@@ -17,10 +17,13 @@ def translate(news_type):
     body = urllib.parse.urlencode (data)
     conn.request ("POST", path + params, body, headers)
     response = conn.getresponse ()
-    output = json.loads(response.read())['flaggedTokens']
+    output = json.loads(response.read().decode())['flaggedTokens']
     output = [suggestion for suggestion in output if suggestion['token'] == news_type]
-    suggestions = output[0]['suggestions']
-    return sorted(suggestions, key=lambda x: x['score'])[0]['suggestion']
+    if output:
+        suggestions = output[0]['suggestions']
+        return sorted(suggestions, key=lambda x: x['score'])[0]['suggestion']
+    else:
+        return news_type
 
 if __name__ == '__main__':
     word = input("Select type of news: ")
