@@ -139,7 +139,7 @@ function handleHelp(sender_psid) {
 
 
 function topicQuery(sender_psid, query){
-  let response = {"text":"Here are your results for: "+query};
+  let response = {"text":"Here's the top three stories related to: "+query};
   callSendAPI(sender_psid, response);
   let conf = { headers: {"x-api-key": "9KwLp0ApWBaxOGwfqH9Pg5gw0DNZ7ze36q0N8hAF", "Content-Type": "application/json"} }
   axios.post("https://j0l0kn7khi.execute-api.us-east-1.amazonaws.com/prod/query", { "query": query }, conf)
@@ -193,9 +193,9 @@ function ask_sub(sender_psid){
       "payload": {
         "template_type": "generic",
         "elements": [{
-          "title": "Welcome to Paper Boy!",
-          "subtitle": "Would you like to subscribe to daily news?\n For help type !help",
-          "image_url": "https://cdn.glitch.com/7b88e027-f126-4d88-8c93-870e7842d10a%2FYes_No.png?1526080992938",
+          "title": "Would you like to subscribe to daily news?",
+          "subtitle": "For more info type !help",
+          "image_url": "https://cdn.glitch.com/2b74ed94-3f62-4de5-8d09-545d36b4e9fe%2FYes_No(2).png?1526102191216",
           "buttons": [
             {
               "type": "postback",
@@ -217,7 +217,7 @@ function ask_sub(sender_psid){
 
 // Handles headline message creation
 function headline_response(sender_psid) {
-  let response = {"text":"🌞 GOOD MORNING, here's what's trending today! 🙏☀️"}
+  let response = {"text":"🌞 Hey there! Here's some news to start your day off right! 🙏☀️"}
   callSendAPI(sender_psid,response);
   axios.get("https://j0l0kn7khi.execute-api.us-east-1.amazonaws.com/prod/headlines")
     .then(function (ret) {
