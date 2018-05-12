@@ -1,6 +1,8 @@
 import re
 import requests
 import html
+import json
+import boto3
 
 def findall(tag, text):
     return re.findall("<{tag}>(.*?)</{tag}>".format(tag=tag), text)
@@ -27,8 +29,27 @@ def news_req(category=None, region='au', query=None):
 
     text = requests.get(url).content.decode()
     articles = []
-    for title, link in zip(findall('title', text), findall('link', text)):
+    titles = findall('title', text)
+    links = findall('link', text)
+    images = ['http:' + link for link in re.findall(r"img src=&quot;(.*?)&quot;", text)]
+    for title, link in zip(titles, links):
         link = re.sub(r".*url=(.*)$", r"\1", link)
         if not(link.startswith('https://news.google.com/news')):
-            articles.append({'title': html.unescape(title), 'link': link})
+            title = html.unescape(title)
+            title, subtitle = title.rsplit(' - ', 1)
+            articles.append({
+                'title': title, 
+                'source': subtitle, 
+                'link': link, 
+                'image': images.pop(0) if images else "" 
+            })
+    return articles
+
+def get_positive_articles(articles):
+    client = boto3.client(service_name='comprehend', region_name='us-east-1')
+    def get_positivity(article):
+        resp = client.detect_sentiment(Text=article['title'], LanguageCode='en')
+        return resp['SentimentScore']['Positive']
+
+    articles.sort(key=get_positivity, reverse=True)
     return articles

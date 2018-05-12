@@ -3,9 +3,9 @@ import news.morning as morning
 import news.input as query_handler
 
 def get_news(event, context):
-    if event['body']:
-        query = json.loads(event['body']).get('query')
-        news = query_handler.parse_input(query)
+    if event.get('body'):
+        payload = json.loads(event['body'])
+        news = query_handler.parse_input(payload.get('query'), payload.get('region', 'au'))
     else:
         news = morning.morning_news()
     body = {

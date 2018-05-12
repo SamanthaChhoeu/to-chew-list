@@ -9,6 +9,7 @@ name = "pypi"
 
 requests = "*"
 newsapi-python = "*"
+"boto3" = "*"
 
 
 [dev-packages]
