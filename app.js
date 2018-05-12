@@ -139,6 +139,8 @@ function handleHelp(sender_psid) {
 
 
 function topicQuery(sender_psid, query){
+  let response = {"text":"Here are your results for: "+query};
+  callSendAPI(sender_psid, response);
   let conf = { headers: {"x-api-key": "9KwLp0ApWBaxOGwfqH9Pg5gw0DNZ7ze36q0N8hAF", "Content-Type": "application/json"} }
   axios.post("https://j0l0kn7khi.execute-api.us-east-1.amazonaws.com/prod/query", { "query": query }, conf)
   .then(function (responses) {
