@@ -10,6 +10,7 @@ name = "pypi"
 requests = "*"
 newsapi-python = "*"
 "boto3" = "*"
+weather-api = "*"
 
 
 [dev-packages]

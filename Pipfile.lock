@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0200c460bc1d72e1e5a9cc79b525c863dc6f65b4da70b5c76275042f68e4b5b3"
+            "sha256": "c3ae262c095b024a3b22e7d0f7d416a2fc51ac535349b83c1f26a5998d979d3c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -82,6 +82,14 @@
                 "sha256:832dc0e10feb1aa2c68dcc57dbb658f1c7e65b9b61af69048abc87a2db00a0eb"
             ],
             "version": "==1.11.0"
+        },
+        "weather-api": {
+            "hashes": [
+                "sha256:5665a378d47500514a0428a1ceebb5fa3517bb620763bb391dcc4caa1c493474",
+                "sha256:bfb95fb907ef66d17ce71cf7450d0401d9bf49cbd1a27325c571e71eb7ee4545"
+            ],
+            "index": "pypi",
+            "version": "==1.0.3"
         }
     },
     "develop": {}
